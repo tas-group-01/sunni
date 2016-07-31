@@ -1,6 +1,7 @@
 function Button = findB()
 %% finds position of the button
 global CLASSIFIER_Button;
+global game_duration;
 
 %prediction
 B1 = predict(CLASSIFIER_Button, extractHOGFeatures(rgb_to_gray(screencapture(0, [310,340,25,25])),'CellSize', [4 4]));
@@ -13,7 +14,7 @@ if sum(not(B)) > 1
     msg = 'classification failed';
     warning(msg);
 end
-
+game_duration = toc
 Button = find(B == 0);
 
 end
