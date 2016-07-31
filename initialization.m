@@ -1,12 +1,13 @@
-function success = initialization ()
+function success = initialization()
 %% initialization
+global CLASSIFIER_Initialization;
 features=extractHOGFeatures(screencapture(0, [385,155,125,55]), 'CellSize', [4 4]);
 
 label = predict(CLASSIFIER_Initialization, features); 
 
 while(label == 1)
     
-    pause(3); %reduktion sampling rate
+    pause(1); 
 
     features=extractHOGFeatures(screencapture(0, [385,155,125,55]), 'CellSize', [4 4]);
     label = predict(CLASSIFIER_Initialization, features);

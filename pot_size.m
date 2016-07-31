@@ -3,7 +3,7 @@ function pot = pot_size()
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 I = screencapture(0, [395,640,45,10]);
 I = imfilter(I,filter);
-CLASSIFIER_Pot=evalin('base', 'CLASSIFIER_Pot');
+global CLASSIFIER_Pot;
 
 pot = 0;
 ref = 1000;
