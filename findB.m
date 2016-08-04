@@ -17,4 +17,11 @@ end
 game_duration = toc
 Button = find(B == 0);
 
+%for circling
+if Button == 0
+    Button = 4;
+elseif Button == 5;
+    Button = 1;
+end
+
 end

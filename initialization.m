@@ -15,6 +15,8 @@ while(label == 1)
     if (label == 0)
         pause(1);
         label = predict(CLASSIFIER_Initialization, features);
+        % when everybody folded to BB avoid classification and thus wait
+        pause(6);
     end
         
 end
