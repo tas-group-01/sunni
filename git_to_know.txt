@@ -5,3 +5,6 @@ git checkout --track origin/dev
 
 #delete remote branch
 git push origin --delete <branchName>
+
+#to remove the file from the repo and not delete it from the local file system use:
+git rm --cached file.txt
