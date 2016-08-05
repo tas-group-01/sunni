@@ -8,3 +8,9 @@ git push origin --delete <branchName>
 
 #to remove the file from the repo and not delete it from the local file system use:
 git rm --cached file.txt
+
+#remove file from remote 
+rm file.txt
+git add . -A
+git commit -m "Deleted some files..."
+git push origin dev
