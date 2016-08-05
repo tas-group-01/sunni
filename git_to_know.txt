@@ -2,3 +2,6 @@
 git checkout --track origin/dev
 #This creates a new local branch with the same name as the remote one-
 #and directly establishes a tracking connection between the two
+
+#delete remote branch
+git push origin --delete <branchName>
