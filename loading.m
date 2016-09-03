@@ -38,7 +38,7 @@ elseif (pot/(2^phase) == 240 && hascards(findB()) && hascards(findB()-1))
 %elseif (pot/(2^phase) == 215) no need for classifying this
 %    % another player minraised
 %    RAB = 7;
-%end
+end
 
 tupel_n = [N PB RAB];
 tupel = tupel_n*10.^(numel(tupel_n)-1:-1:0).'; %transformation to num
@@ -139,7 +139,18 @@ switch tupel
 end
 
 % take into account pot comittment
-my_pot = my_pot(); m
+
+stack = my_pot(); 
+disp(['STACK: ',num2str(stack)]);
+
+if (50*(2^phase) < stack/6 && RAB == 0 && not(strcmp(situation,'RRH') || (strcmp(situation,'SBL') || strcmp(situation,'SBL+') || strcmp(situation,'L+') || strcmp(situation,'L++') || strcmp(situation,'SBL++'))));
+    % pot committed
+    situation = 'PCM'; %pot committed
+    disp('Pot comitted')
+end
+    
+
+
         
         
 
