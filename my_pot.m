@@ -2,8 +2,8 @@ function pot = my_pot()
 %% function that returns stack size
 % algorithmus for classification of the Pot
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
-I = screencapture(0, [590,302,45,10]);
-I = imfilter(I,filter);
+I_ = screencapture(0, [590,302,45,10]);
+I = imfilter(I_,filter);
 global CLASSIFIER_Pot;
 
 pot = 0;
@@ -70,6 +70,11 @@ switch pot_4_digits
         msg = 'error occured in classifying the pot';
         warning(msg);
 end
+ 
+    
+    figure(1),
+    hold on;
+    imshow(I_)
 
 
 
