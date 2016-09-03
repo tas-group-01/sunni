@@ -11,7 +11,7 @@ function  situation = loading()
 PB = findB();
 pot = pot_size();
 duration = toc;
-phase = floor(duration/180); %one phase takes 120 seconds
+phase = floor(duration/180); %one phase takes 180 seconds
 if (pot/(2^phase) > 115) %pot size only with the blinds and antes
                          %somebody already committed chips to the pot
                          %when this is true
