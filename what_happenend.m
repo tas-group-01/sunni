@@ -5,13 +5,14 @@ function action = what_happenend()
 field1 = 'player1'; %fold, call, raise (0, 1, 2)
 field2 = 'player2';
 field3 = 'player3';
-action = struct(field1,0,field2,0,field3,0);
 
 % game duration: blinds increase every 3 minutes 
 duration = toc;
 phase = floor(duration/180);
+phase = 1;
 % size of the current pot
 pot = pot_size();
+pot
 % current Button position
 button = findB(); % my_seat:1 then clockwise ->2->3->4
     
@@ -98,10 +99,100 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
             end
             
         case 2
-            action.player1 = -1;
-            action.player2 = -1;
-            action.player3 = -1;
-            return;
+            if pot/(2^phase) <= 115
+                action.player1 = 0; % everybody folded
+                action.player2 = 0; % this case will never appear
+                action.player3 = 0; % in the algorthm but somehow
+                return;             % has to be recognized for the
+                                    % agression factor
+            elseif pot/(2^phase) <= 140
+                action.player1 = 0;
+                action.player2 = 0;
+                action.player3 = 1;
+                return;
+                
+            elseif pot/(2^phase) <= 165
+                info = hascards2_0player();
+                switch info(1)
+                    case 1
+                        action.player1 = 1;
+                        action.player2 = 0;
+                        action.player3 = 0;
+                        return;
+                    case 2
+                        action.player1 = 0;
+                        action.player2 = 1;
+                        action.player3 = 0;
+                        return;
+                end
+                
+            elseif pot/(2^phase) <= 190 % however be careful antes don't raise linearly
+                info = hascards2_0player();
+                switch info(1)
+                    case 1
+                        action.player1 = 1;
+                        action.player2 = 0;
+                        action.player3 = 1;
+                        return;
+                    case 2
+                        action.player1 = 0;
+                        action.player2 = 1;
+                        action.player3 = 1;
+                        return;
+                end 
+                
+            elseif pot/(2^phase) <= 215
+                info = hascards2_0player();
+                if length(info) == 2
+                    action.player1 = 1;
+                    action.player2 = 1;
+                    action.player3 = 0;
+                    return;
+                elseif info == 1
+                    action.player1 = 2;
+                    action.player2 = 0;
+                    action.player3 = 0;
+                    return;
+                elseif info == 2
+                    action.player1 = 0;
+                    action.player2 = 2;
+                    action.player3 = 0;
+                    return;
+                else
+                    msg = 'missclassification 2.8';
+                    warning(msg);
+                    return;
+                end
+                
+            else % find out who else involved with raise
+                info = hascards2_0player();
+                if length(info) == 3
+                    action.player1 = 2;
+                    action.player2 = 2;
+                    action.player3 = 2;
+                    return;
+                elseif length(info) == 2
+                    switch info(1)
+                        case 1
+                            action.player1 = 2;
+                            switch info(2)
+                                case 2
+                                    action.player2 = 2;
+                                    action.player3 = 0;
+                                    return;
+                                case 3
+                                    action.player2 = 0;
+                                    action.player3 = 2;
+                                    return;
+                            end
+                        case 2
+                            action.player1 = 0;
+                            action.player2 = 2;
+                            action.player3 = 2;
+                            return;
+                    end
+                end
+            end
             
         case 1
             if pot/(2^phase) <= 115
