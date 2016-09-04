@@ -7,15 +7,15 @@ field2 = 'player2';
 field3 = 'player3';
 action = struct(field1,0,field2,0,field3,0);
 
-% game duration: blinds increase every 3 minutes
+% game duration: blinds increase every 3 minutes 
 duration = toc;
 phase = floor(duration/180);
 % size of the current pot
 pot = pot_size();
 % current Button position
 button = findB(); % my_seat:1 then clockwise ->2->3->4
-
     
+   % for now only valid for four players involved
     switch button
         case 4
             
@@ -134,10 +134,12 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                         action.player1 = 1;
                         action.player2 = 0;
                         action.player3 = 0;
+                        return;
                     case 2
                         action.player1 = 0;
                         action.player2 = 1;
                         action.player3 = 0;
+                        return;
                 end
             elseif pot/(2^phase) <= 190
                  [~,in_idx] = involved();
@@ -146,23 +148,84 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                         action.player1 = 1;
                         action.player2 = 0;
                         action.player3 = 1;
+                        return;
                     case 2
                         action.player1 = 0;
                         action.player2 = 1;
                         action.player3 = 1;
+                        return;
                 end 
-            else pot/(2^phase) <= 240
+                
+            elseif pot/(2^phase) <= 190 % i.e. small blind raised
+                action.player1 = 0;
+                action.player2 = 0;
+                action.player3 = 2; 
+                return;
+
+            elseif pot/(2^phase) <= 215 % i.e. small blind not involved
                 [~,in_idx] = involved();
-                if length(in_idx) == 3
+                if length(in_idx) == 2
                     action.player1 = 1;
                     action.player2 = 1;
-                    action.player3 = 1;
-                elseif length(in_idx) == 2
+                    action.player3 = 0;
+                    return;
+                elseif length(in_idx) == 1
                     switch in_idx(1)
                         case 1
                             action.player1 = 2;
                             action.player2 = 0;
                             action.player3 = 0;
+                            return;
+                        case 2
+                            action.player1 = 0;
+                            action.player2 = 2;
+                            action.player3 = 0;
+                            return;
+                    end
+                end
+                                         
+            elseif pot/(2^phase) <= 240 % i.e. small blind limped in
+               [~,in_idx] = involved();
+               if length(in_idx) == 3
+                   action.player1 = 1;
+                   action.player2 = 1;
+                   action.player3 = 1;
+                   return;
+               end  
+               
+            else
+                % see who raised and is involved
+                [~,in_idx] = involved();
+                if length(in_idx) == 3
+                    action.player1 = 2;
+                    action.player2 = 2;
+                    action.player3 = 2;
+                elseif length(in_idx) == 2
+                    switch in_idx(2)
+                        case 3
+                            action.player3 = 2;
+                            switch (in_idx(1))
+                                case 1
+                                    action.player1 = 2;
+                                    action.player2 = 0;
+                                case 2
+                                    action.player1 = 0;
+                                    action.player2 = 2;
+                            end
+                        case 2
+                            action.player3 = 0;
+                            action.player2 = 2;
+                            action.player1 = 2;
+                        case 1
+                            msg = 'env misclassification 3.0';
+                            warning(msg);
+                    end
+                end
+            end
+                            
+
+                    
+
                 
                 
 
