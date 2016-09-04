@@ -11,12 +11,12 @@ B0 = predict(CLASSIFIER_Button, extractHOGFeatures(rgb_to_gray(screencapture(0, 
 
 B = [B0 B1 B2 B3];
 if sum(not(B)) > 1
-    msg = 'classification failed 1.0';
+    msg = 'button classification failed 1.0';
     warning(msg);
 end
 Button = find(B == 0);
 if length(Button) > 1
-    msg = 'classification failed 1.1';
+    msg = 'button classification failed 1.1';
     warning(msg);
 end
 
