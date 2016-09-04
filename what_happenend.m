@@ -26,26 +26,26 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                 return;
  
             elseif pot/(2^phase) <= 165
-                [~,in_idx] = involved();
+                info = hascards2_0player();
                 action.player1 = -1;
-                if length(in_idx) > 2
+                if length(info) > 2
                     msg = 'in_idx too long for button case 4';
                     warning(msg);
-                elseif in_idx == 2
+                elseif info == 2
                     action.player2 = 1;
                     action.player3 = 0;
                     return;
-                elseif in_idx == 3
+                elseif info == 3
                     action.player2 = 0;
                     action.player3 = 1;
                     return;
                 end
                 
             elseif pot/(2^phase) <=215
-                [~,in_idx] = involved();
+                info = hascards2_0player();
                 action.player1 = -1;
-                if length(in_idx) == 2
-                    switch in_idx(2)
+                if length(info) == 2
+                    switch info(2)
                         case 2
                             action.player2 = 2;
                             action.player3 = 0;
@@ -59,7 +59,7 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                             warning(msg);
                             return;
                     end
-                elseif length(in_idx) == 3
+                elseif length(info) == 3
                     action.player1 = 1;
                     action.player2 = 1;
                     return;
@@ -69,10 +69,10 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                      return;
                 end
             else
-                [~,in_idx] = involved();
+                info = hascards2_0player();
                 action.player1 = -1;
-                if length(in_idx) == 2
-                    switch in_idx(2)
+                if length(info) == 2
+                    switch info(2)
                         case 2
                             action.player2 = 2;
                             action.player3 = 0;
@@ -86,7 +86,7 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                             warning(msg);
                             return;
                     end
-                 elseif length(in_idx) == 3
+                 elseif length(info) == 3
                     action.player1 = 2;
                     action.player2 = 2;
                     return;
@@ -128,8 +128,8 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                 action.player3 = 1;
                 return;
             elseif pot/(2^phase) <= 165
-                [~,in_idx] = involved();
-                switch in_idx(1)
+                info = hascards2_0player();
+                switch info(1)
                     case 1               
                         action.player1 = 1;
                         action.player2 = 0;
@@ -142,8 +142,8 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                         return;
                 end
             elseif pot/(2^phase) <= 190
-                 [~,in_idx] = involved();
-                switch in_idx(1)
+                 info = hascards2_0player();
+                switch info(1)
                     case 1               
                         action.player1 = 1;
                         action.player2 = 0;
@@ -163,14 +163,14 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                 return;
 
             elseif pot/(2^phase) <= 215 % i.e. small blind not involved
-                [~,in_idx] = involved();
-                if length(in_idx) == 2
+                info = hascards2_0player();
+                if length(info) == 2
                     action.player1 = 1;
                     action.player2 = 1;
                     action.player3 = 0;
                     return;
-                elseif length(in_idx) == 1
-                    switch in_idx(1)
+                elseif length(info) == 1
+                    switch info(1)
                         case 1
                             action.player1 = 2;
                             action.player2 = 0;
@@ -185,8 +185,8 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                 end
                                          
             elseif pot/(2^phase) <= 240 % i.e. small blind limped in
-               [~,in_idx] = involved();
-               if length(in_idx) == 3
+               info = hascards2_0player();
+               if length(info) == 3
                    action.player1 = 1;
                    action.player2 = 1;
                    action.player3 = 1;
@@ -195,16 +195,16 @@ button = findB(); % my_seat:1 then clockwise ->2->3->4
                
             else
                 % see who raised and is involved
-                [~,in_idx] = involved();
-                if length(in_idx) == 3
+                info = hascards2_0player();
+                if length(info) == 3
                     action.player1 = 2;
                     action.player2 = 2;
                     action.player3 = 2;
-                elseif length(in_idx) == 2
-                    switch in_idx(2)
+                elseif length(info) == 2
+                    switch info(2)
                         case 3
                             action.player3 = 2;
-                            switch (in_idx(1))
+                            switch (info(1))
                                 case 1
                                     action.player1 = 2;
                                     action.player2 = 0;
