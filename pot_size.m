@@ -2,6 +2,7 @@ function pot = pot_size()
 %% algorithmus for classification of the Pot
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 I = screencapture(0, [395,640,45,10]);
+imshow(I)
 I = imfilter(I,filter);
 global CLASSIFIER_Pot;
 

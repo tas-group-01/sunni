@@ -17,7 +17,8 @@ CLASSIFIER_Hascards=evalin('base', 'CLASSIFIER_Hascards');
 tic;
 
 action = what_happenend()
-return
+
+return;
 
 situation = 'INIT';
 while (1)

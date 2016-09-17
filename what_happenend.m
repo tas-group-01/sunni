@@ -14,7 +14,7 @@ phase = 1;
 pot = pot_size();
 pot
 % current Button position
-button = findB(); % my_seat:1 then clockwise ->2->3->4
+button = findB() % my_seat:1 then clockwise ->2->3->4
     
    % for now only valid for four players involved
     switch button
