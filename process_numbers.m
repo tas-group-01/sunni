@@ -10,11 +10,11 @@ for i = 8:length(img)-8
 %	X(i) = 1/8*sum(img(:,i-3)) + 1/4* sum(img(:,i-2)) + 1/2*sum(img(:,i-1)) + sum(img(:,i)) + 1/2*sum(img(:,i+1)) + 1/4*sum(img(:,i+2)) + 1/8*sum(img(:,i+3)) ;
 	X(i) = sum(img(:,i));
 end
+
 %finde die vordefinierten peaks
 X_inv = 1.01*max(X) - X;
 [Minima, MinIdx] = findpeaks(X_inv);
 %until here the peaks are found robustly
-
 
 z = 1;
 four_digits = 0;
@@ -32,6 +32,7 @@ for i = index: -1:1
 		z = z + 1;
 	end
 end
+
 %peak
 % index should depend on how many digits I have
 % find the $
