@@ -53,12 +53,16 @@ for i = 5:length(img)-5
 		correlation = res_corr;
 	end
 end
+peak
 
 d_index
-
-index = 2:4;
+% find the relevant peaks
+index = find(peak > d_index);
 peak = peak(index);
+
+peak = peak(2:end);
 peak(1:end) = peak(end:-1:1);
+peak
 %if ~four_digits
 %	peak = peak(1:4);
 %else
@@ -73,7 +77,7 @@ peak
 I_cell = cell(1,length(peak));
 for i = 1:length(peak) 
 	%width for every digit: 6 pixels 
-	I_cell{i} = img(:,peak(i):peak(i)+6);
+	I_cell{i} = img(2:end-1,peak(i):peak(i)+6);
 		
 end
 
