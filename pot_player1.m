@@ -1,29 +1,36 @@
-function pot = pot_player1(g_scale)
+function [pot] = pot_player1(g_scale)
 %% function that classifies the chips committed to the pot by player1
 disp('pot_player1() invoked!')
+
+global CLASSIFIER_Pot;
 
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 
 I = screencapture(0, [300,375,100,15]);
 I = rgb_to_gray(I);
 I = imfilter(I,filter);
-
+% von hinten die Zahlen analysieren und durchgehen bis zum $ und Punkt überspringen
 imshow(I) 
 
-v_min = 8000;
-idx1 = 0;
-idx2 = 0;
+%v_min = 8000;
+%idx1 = 0;
+%idx2 = 0;
 % iterate over the whole captured image
 % not mandatory to iterate until end
 
 % defining X in order to find local minima of X; 
 % the n - 1 local inimum should be the starting point i.e. idx1
 X = zeros(1,100);
+I_ = zeros(15,99);
+I_(:,:) = I(:,1:99);
+I_ = horzcat(I_,I(:,end-1),I(:,end-1),I(:,end-1));
+%I_(:,1:100) = I(:,1:100);
+%I_(:,101:102) = I(:,end-2:end-1);
 
-for i = 1:length(I) - 10  
-	v1 = sum(I(:,i));
-	v2 = sum(I(:,i+1));
-	v3 = sum(I(:,i+2));
+for i = 1:length(I)  
+	v1 = sum(I_(:,i));
+	v2 = sum(I_(:,i+1));
+	v3 = sum(I_(:,i+2));
 	v = [v1 v2 v3];
 	v = sum(v);
 	X(i) = v;
@@ -32,9 +39,14 @@ for i = 1:length(I) - 10
 %		idx1 = i+2; % start from there where the numbers start
 %	end
 
-	Xinv = 1.01*max(X) - X;
-	[Minima,MinIdx] = findpeaks(Xinv);
+%	Xinv = 1.01*max(X) - X;
+%	[Minima,MinIdx] = findpeaks(Xinv);
 end
+
+%        Xinv = 1.01*max(X) - X;
+%        [Minima,MinIdx] = findpeaks(Xinv);
+
+
 
 %figure(2);
 %plot(X)
@@ -43,7 +55,7 @@ Fs = 1000; % Sampling frequency
 T = 1/Fs; % Sampling period
 L = 100;  % Length of the signal
 t = (0:L-1)*T; % Time vector
-size(t)
+
 
 figure(2);
 plot(1000*t(1:90),X(1:90))
@@ -105,37 +117,22 @@ figure(6);
 X_filtered = fftshift(ifft(Y.*Y_gausspulse));
 plot(X_filtered)
 
-X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
-[Minima, MinIdx] = findpeaks(X_filtered_inv);
+%X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
+%[Minima, MinIdx] = findpeaks(X_filtered_inv);
 
-if length(MinIdx) > 1
-	msg = 'classifying properly end of capture failed';
-	warning(msg);
-end
-
-% not necessary going until the end
-
-%for i = MinIdx:20
-
-
-
-idx1 = MinIdx
-
-idx1 = 1;
-
-for i = idx1(end):length(I)
-	v = sum(I(:,i));
-	if 2224 - 150 < v && v < 2224 + 150
-		idx2 = i;
-		break;
+% find deepest descend
+desc = 0;
+for i = 10:length(X_filtered)-10
+	descent = X_filtered(i-8) - X_filtered(i + 8);
+	if descent > desc
+		desc = descent;
+		index = i;
 	end
 end
+index
 
-% set up reference for classifiying the number
-ref = idx2;
+I_cell = process_numbers(I,index);
 
-
-
-pot = idx2;
+pot = I_cell;
 
 end
