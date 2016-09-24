@@ -122,11 +122,12 @@ plot(X_filtered)
 
 % find deepest descend
 desc = 0;
-for i = 10:length(X_filtered)-10
-	descent = X_filtered(i-8) - X_filtered(i + 8);
+for i = 12:length(X_filtered)-12
+	descent = X_filtered(i-10) - X_filtered(i + 10);
 	if descent > desc
 		desc = descent;
-		index = i;
+		% to be on the safe side add 1
+		index = i+1;
 	end
 end
 index

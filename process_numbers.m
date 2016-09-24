@@ -13,6 +13,8 @@ end
 %finde die vordefinierten peaks
 X_inv = 1.01*max(X) - X;
 [Minima, MinIdx] = findpeaks(X_inv);
+%until here the peaks are found robustly
+
 z = 1;
 four_digits = 0;
 for i = index: -1:1 
@@ -37,7 +39,8 @@ else
 	peak(end - 2 ) = -100;
 	idx = find(peak ~= -100);
 	peak = peak(idx);
-end 
+end
+peak 
 
 %cut off digits and transform into number
 I_cell = cell(1,length(peak)-1);
