@@ -33,6 +33,29 @@ for i = index: -1:1
 	end
 end
 %peak
+% index should depend on how many digits I have
+% find the $
+% $ characteristica
+% 5 cols
+sum_col1 = 1021;
+sum_col2 = 1222;
+sum_col3 = 2224;
+sum_col4 = 885;
+sum_col5 = 1366;
+sum_col = [sum_col1 sum_col2 sum_col3 sum_col4 sum_col5]';
+correlation = 0;
+for i = 5:length(img)-5
+	img_cols = [sum(img(:,i-2)) sum(img(:,i-1)) sum(img(:,i)) sum(img(:,i+1)) sum(img(:, i+2))]';
+	% Ähnlichkeit/Correlation definieren und bestimmen
+	res_corr = corr(sum_col,img_cols);
+	if res_corr > correlation
+		d_index = i;
+		correlation = res_corr;
+	end
+end
+
+d_index
+
 index = 2:4;
 peak = peak(index);
 peak(1:end) = peak(end:-1:1);
