@@ -15,6 +15,7 @@ X_inv = 1.01*max(X) - X;
 [Minima, MinIdx] = findpeaks(X_inv);
 %until here the peaks are found robustly
 
+
 z = 1;
 four_digits = 0;
 for i = index: -1:1 
@@ -31,22 +32,25 @@ for i = index: -1:1
 		z = z + 1;
 	end
 end
-peak
-if ~four_digits
-	peak = peak(1:4);
-else
+%peak
+index = 2:4;
+peak = peak(index);
+peak(1:end) = peak(end:-1:1);
+%if ~four_digits
+%	peak = peak(1:4);
+%else
 	% cut of the dot .
-	peak(end - 2 ) = -100;
-	idx = find(peak ~= -100);
-	peak = peak(idx);
-end
+%	peak(end - 2 ) = -100;
+%	idx = find(peak ~= -100);
+%	peak = peak(idx);
+%end
 peak 
 
 %cut off digits and transform into number
-I_cell = cell(1,length(peak)-1);
-for i = 0:length(peak) - 2 
+I_cell = cell(1,length(peak));
+for i = 1:length(peak) 
 	%width for every digit: 6 pixels 
-	I_cell{i+1} = img(:,5+peak(end-i):-1:peak(end-i));
+	I_cell{i} = img(:,peak(i):peak(i)+6);
 		
 end
 
