@@ -120,10 +120,31 @@ plot(X_filtered)
 %X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
 %[Minima, MinIdx] = findpeaks(X_filtered_inv);
 
+col1 = [255;0;0;0;0;0;74;0;0;0;44;255;0;0;255];
+col2 = [255;0;0;0;0;255;0;255;0;0;0;255;0;0;255];
+col3 = [255;0;0;100;255;255;0;255;255;0;0;255;255;0;255];
+col4 = [255;0;0;0;74;0;0;0;255;0;0;255;0;0;255];
+col5 =  [255;0;0;0;138;136;0;0;0;255;255;0;0;104;255];
+col = [col1 col2 col3 col4 col5];
+correlation = 0;
+for i = 5:length(I)-5
+        img_cols = [(I(:,i-2)) (I(:,i-1)) (I(:,i)) (I(:,i+1)) (I(:, i+2))];
+        % Ähnlichkeit/Correlation definieren und bestimmen
+        res_corr = corr(col,double(img_cols));
+        res_corr = diag(res_corr);
+        if sum(res_corr(:)) > correlation
+                d_index = i;
+                correlation = sum(res_corr(:));
+        end
+end
+
+
+
+
 % find deepest descend
 desc = 0;
 descent = diff(X_filtered);
-for i = 12:length(X_filtered)-12
+for i = d_index:length(X_filtered)-1
 %	descent = X_filtered(i-10) - X_filtered(i + 10);
 %	if descent > desc
 	if descent(i) < desc

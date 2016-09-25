@@ -5,7 +5,7 @@ global CLASSIFIER_Pot;
 
 % analyse in frequency domain
 X = zeros(1,length(img));
-for i = 8:length(img)-8
+for i = 4:length(img)-4
 	% low pass filtering
 %	X(i) = 1/8*sum(img(:,i-3)) + 1/4* sum(img(:,i-2)) + 1/2*sum(img(:,i-1)) + sum(img(:,i)) + 1/2*sum(img(:,i+1)) + 1/4*sum(img(:,i+2)) + 1/8*sum(img(:,i+3)) ;
 	X(i) = sum(img(:,i));
@@ -18,7 +18,7 @@ X_inv = 1.01*max(X) - X;
 
 z = 1;
 four_digits = 0;
-for i = index: -1:1 
+for i = index+5: -1:1 %to be on the safe side
 %	if X(i) == 255*2
 	if X(i) < 600 && ~isempty(find(i==MinIdx)) % if its not empty then index is contained as peak
 		peak(z) = i;
@@ -37,21 +37,22 @@ end
 % index should depend on how many digits I have
 % find the $
 % $ characteristica
-% 5 cols
-sum_col1 = 1021;
-sum_col2 = 1222;
-sum_col3 = 2224;
-sum_col4 = 885;
-sum_col5 = 1366;
-sum_col = [sum_col1 sum_col2 sum_col3 sum_col4 sum_col5]';
+% 5 col
+col1 = [255;0;0;0;0;0;74;0;0;0;44;255;0;0;255];
+col2 = [255;0;0;0;0;255;0;255;0;0;0;255;0;0;255];
+col3 = [255;0;0;100;255;255;0;255;255;0;0;255;255;0;255];
+col4 = [255;0;0;0;74;0;0;0;255;0;0;255;0;0;255];
+col5 =  [255;0;0;0;138;136;0;0;0;255;255;0;0;104;255];
+col = [col1 col2 col3 col4 col5];
 correlation = 0;
-for i = 5:length(img)-5
-	img_cols = [sum(img(:,i-2)) sum(img(:,i-1)) sum(img(:,i)) sum(img(:,i+1)) sum(img(:, i+2))]';
+for i = 3:length(img)-3
+	img_cols = [(img(:,i-2)) (img(:,i-1)) (img(:,i)) (img(:,i+1)) (img(:, i+2))];
 	% Ähnlichkeit/Correlation definieren und bestimmen
-	res_corr = corr(sum_col,img_cols);
-	if res_corr > correlation
+	res_corr = corr(col,double(img_cols));
+	res_corr = diag(res_corr);
+	if sum(res_corr(:)) > correlation
 		d_index = i;
-		correlation = res_corr;
+		correlation = sum(res_corr(:));
 	end
 end
 peak
