@@ -38,23 +38,30 @@ end
 % find the $
 % $ characteristica
 % 5 col
-col1 = [255;0;0;0;0;0;74;0;0;0;44;255;0;0;255];
-col2 = [255;0;0;0;0;255;0;255;0;0;0;255;0;0;255];
-col3 = [255;0;0;100;255;255;0;255;255;0;0;255;255;0;255];
-col4 = [255;0;0;0;74;0;0;0;255;0;0;255;0;0;255];
-col5 =  [255;0;0;0;138;136;0;0;0;255;255;0;0;104;255];
+col1 = [0;0;0;74;0;0;0;44;255];
+col2 = [0;0;255;0;255;0;0;0;255];
+col3 = [100;255;255;0;255;255;0;0;255];
+col4 = [0;74;0;0;0;255;0;0;255];
+col5 =  [0;138;136;0;0;0;255;255;0];
 col = [col1 col2 col3 col4 col5];
+
 correlation = 0;
-for i = 3:length(img)-3
-	img_cols = [(img(:,i-2)) (img(:,i-1)) (img(:,i)) (img(:,i+1)) (img(:, i+2))];
-	% Ähnlichkeit/Correlation definieren und bestimmen
-	res_corr = corr(col,double(img_cols));
-	res_corr = diag(res_corr);
-	if sum(res_corr(:)) > correlation
-		d_index = i;
-		correlation = sum(res_corr(:));
-	end
+for i = 5:length(img)-5
+        for j = 1:6
+        img_cols = [(img(j:end-(7-j),i-2)) (img(j:end-(7-j),i-1)) (img(j:end-(7-j),i)) (img(j:end-(7-j),i+1)) (img(j:end-(7-j), i+2))];
+        
+                % Ähnlichkeit/Correlation definieren und bestimmen
+                res_corr = corr(col,double(img_cols));
+                res_corr = diag(res_corr);
+                %sum(res_corr(:))
+                if isfinite(sum(res_corr(:))) && sum(res_corr(:)) > correlation
+                        d_index = i;
+                        correlation = sum(res_corr(:));
+                end
+        end
 end
+
+
 peak
 
 d_index
