@@ -184,17 +184,17 @@ for i = 1:length(I_cell)
 %	end
 %	
 	I_cell{i} = im;
-%end
+end
 
 
 n = zeros(1,length(I_cell));
 
-%for i = 1:length(I_cell)
-%	n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(I_cell{i},'CellSize',[2 2])); 
-%end
+for i = 1:length(I_cell)
+	n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(I_cell{i},'CellSize',[2 2])); 
+end
  
-%pot = n*10.^(numel(n)-1:-1:0).';
+pot = n*10.^(numel(n)-1:-1:0).';
 
-pot = I_cell;
+%pot = I_cell;
 
 end
