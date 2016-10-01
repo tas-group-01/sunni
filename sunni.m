@@ -18,6 +18,8 @@ tic;
 
 action = what_happenend()
 
+pot = pot_player1(40)
+
 return;
 
 situation = 'INIT';
