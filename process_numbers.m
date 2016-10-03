@@ -86,7 +86,11 @@ peak
 I_cell = cell(1,length(peak));
 for i = 1:length(peak) 
 	%width for every digit: 6 pixels
-	img_raw = img(2:end-1,peak(i):peak(i)+6);
+	if i == 3  % i = 3 ansonsten immer verschoben
+		img_raw = img(2:end-1,peak(i) + 1:peak(i) + 1 + 6);
+	else
+		img_raw = img(2:end-1,peak(i):peak(i)+6);
+	end
 	idx = find(img_raw < 180); % filter out noise expecially at the edges 
 	img_raw(idx) = 0;
 	I_cell{i} = img_raw;
