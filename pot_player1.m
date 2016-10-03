@@ -166,16 +166,16 @@ I_cell = process_numbers(I,index);
 % classification and transformation into double
 
 % preprocessing
-for i = 1:length(I_cell)
-	im = I_cell{i};
-	% cut rows from 13 to 10
-	for j = 1:3
-		if sum(im(1,:)) < sum(im(end,:))
-			im = im(2:end,:);
-		else
-			im = im(1:end-1,:);
-		end
-	end
+%for i = 1:length(I_cell)
+%	im = I_cell{i};
+%	% cut rows from 13 to 10
+%	for j = 1:3
+%		if sum(im(1,:)) < sum(im(end,:))
+%			im = im(2:end,:);
+%		else
+%			im = im(1:end-1,:);
+%		end
+%	end
 %	% cut cols from 7 to 6
 %	if sum(im(:,1)) < sum(im(end,:))
 %		im = im(:,2:end);
@@ -183,18 +183,18 @@ for i = 1:length(I_cell)
 %		im = im(:,1:end-1);
 %	end
 %	
-	I_cell{i} = im;
-end
+%	I_cell{i} = im;
+%end
 
 
 n = zeros(1,length(I_cell));
 
 for i = 1:length(I_cell)
-	n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(I_cell{i},'CellSize',[2 2])); 
+	n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
 end
- 
-pot = n*10.^(numel(n)-1:-1:0).';
+n 
+%pot = n*10.^(numel(n)-1:-1:0).';
 
-%pot = I_cell;
+pot = I_cell;
 
 end

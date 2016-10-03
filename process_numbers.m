@@ -85,8 +85,11 @@ peak
 %cut off digits and transform into number
 I_cell = cell(1,length(peak));
 for i = 1:length(peak) 
-	%width for every digit: 6 pixels 
-	I_cell{i} = img(2:end-1,peak(i):peak(i)+6);
+	%width for every digit: 6 pixels
+	img_raw = img(2:end-1,peak(i):peak(i)+6);
+	idx = find(img_raw < 180); % filter out noise expecially at the edges 
+	img_raw(idx) = 0;
+	I_cell{i} = img_raw;
 		
 end
 
