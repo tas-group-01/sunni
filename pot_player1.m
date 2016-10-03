@@ -11,7 +11,8 @@ I = screencapture(0, [300,375,100,15]);
 I = rgb_to_gray(I);
 I = imfilter(I,filter);
 % von hinten die Zahlen analysieren und durchgehen bis zum $ und Punkt überspringen
-imshow(I) 
+
+%imshow(I) 
 
 %v_min = 8000;
 %idx1 = 0;
@@ -192,7 +193,7 @@ n = zeros(1,length(I_cell));
 
 for i = 1:length(I_cell)
 	%n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
-	n(i) = predict(CLASSIFIER_new_digits, extractHOGFeatures(I_cell{i},'CellSize',[1 1]));
+	n(i) = predict(CLASSIFIER_new_digits, extractHOGFeatures(cutting_off(I_cell{i}),'CellSize',[1 1]));
 end
 %n 
 pot = n*10.^(numel(n)-1:-1:0).';
