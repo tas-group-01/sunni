@@ -2,7 +2,8 @@ function [pot] = pot_player1(g_scale)
 %% function that classifies the chips committed to the pot by player1
 disp('pot_player1() invoked!')
 
-global CLASSIFIER_Pot;
+%global CLASSIFIER_Pot;
+global CLASSIFIER_new_digits;
 
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 
@@ -190,7 +191,8 @@ I_cell = process_numbers(I,index);
 n = zeros(1,length(I_cell));
 
 for i = 1:length(I_cell)
-	n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
+	%n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
+	n(i) = predict(CLASSIFIER_new_digits, extractHOGFeatures(I_cell{i},'CellSize',[1 1]));
 end
 n 
 %pot = n*10.^(numel(n)-1:-1:0).';

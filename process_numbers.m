@@ -1,7 +1,7 @@
 function number = process_numbers(img,index)
 %% function that takes processed filtered and index where to start and finds number
 
-global CLASSIFIER_Pot;
+%global CLASSIFIER_Pot;
 
 % analyse in frequency domain
 X = zeros(1,length(img));

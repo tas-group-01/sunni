@@ -8,12 +8,14 @@ global CLASSIFIER_Plays;
 global CLASSIFIER_Button;
 global CLASSIFIER_Cards;
 global CLASSIFIER_Hascards;
+global CLASSIFIER_new_digits;
 CLASSIFIER_Initialization=evalin('base','CLASSIFIER_Initialization');
 CLASSIFIER_Pot=evalin('base', 'CLASSIFIER_Pot');
 CLASSIFIER_Plays=evalin('base', 'CLASSIFIER_Plays');
 CLASSIFIER_Button=evalin('base', 'CLASSIFIER_Button');
 CLASSIFIER_Cards=evalin('base', 'CLASSIFIER_Cards');
 CLASSIFIER_Hascards=evalin('base', 'CLASSIFIER_Hascards');
+CLASSIFIER_new_digits = evalin('base', 'CLASSIFIER_new_digits');
 tic;
 
 action = what_happenend()
