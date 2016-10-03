@@ -33,7 +33,7 @@ for i = index+5: -1:1 %to be on the safe side
 	end
 end
 
-%peak
+
 % index should depend on how many digits I have
 % find the $
 % $ characteristica
@@ -62,16 +62,16 @@ for i = 5:length(img)-5
 end
 
 
-peak
 
-d_index
+
+
 % find the relevant peaks
 index = find(peak > d_index);
 peak = peak(index);
 
 peak = peak(2:end);
 peak(1:end) = peak(end:-1:1);
-peak
+
 %if ~four_digits
 %	peak = peak(1:4);
 %else
@@ -80,7 +80,7 @@ peak
 %	idx = find(peak ~= -100);
 %	peak = peak(idx);
 %end
-peak 
+
 
 %cut off digits and transform into number
 I_cell = cell(1,length(peak));
@@ -98,7 +98,7 @@ for i = 1:length(peak)
 end
 
 number = I_cell;
-I_cell
+
 
 % use peak in order to cut out the corresponding number
 % take always the next 6 parts

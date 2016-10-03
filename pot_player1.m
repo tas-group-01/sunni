@@ -143,7 +143,7 @@ for i = 5:length(I)-5
         	end
 	end
 end
-d_index
+
 
 
 
@@ -160,7 +160,7 @@ for i = d_index:length(X_filtered)-1
 		index = i+1;
 	end
 end
-index
+
 
 I_cell = process_numbers(I,index);
 
@@ -194,9 +194,9 @@ for i = 1:length(I_cell)
 	%n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
 	n(i) = predict(CLASSIFIER_new_digits, extractHOGFeatures(I_cell{i},'CellSize',[1 1]));
 end
-n 
-%pot = n*10.^(numel(n)-1:-1:0).';
+%n 
+pot = n*10.^(numel(n)-1:-1:0).';
 
-pot = I_cell;
+%pot = I_cell;
 
 end
