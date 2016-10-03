@@ -106,8 +106,8 @@ number = I_cell;
 
 % filter out the intersting frequencies i.e. high frequencies
 
-figure(8);
-plot(X)
+%%%figure(8);
+%%%plot(X)
 
 %number = 1;
 

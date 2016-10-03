@@ -58,11 +58,11 @@ L = 100;  % Length of the signal
 t = (0:L-1)*T; % Time vector
 
 
-figure(2);
-plot(1000*t(1:90),X(1:90))
-title('Original signal of the captured and filtered image')
-xlabel('samples')
-ylabel('gauss filtered sum of samples')
+%%%figure(2);
+%%%plot(1000*t(1:90),X(1:90))
+%%%title('Original signal of the captured and filtered image')
+%%%xlabel('samples')
+%%%ylabel('gauss filtered sum of samples')
 
 % compute Fourier transform of the signal
 Y = fft(X);
@@ -72,15 +72,15 @@ P1 = P2(1:L/2+1);
 P1(2:end-1) = 2*P1(2:end-1);
 
 f = Fs * (0:(L/2))/L;
-figure(3);
-plot(f,P1)
-title('Single-Sided Amplitude Spectrum of gauss filtered v(x)')
-xlabel('f (Hz)')
-ylabel('|P1(f)|')
+%%figure(3);
+%%plot(f,P1)
+%%%title('Single-Sided Amplitude Spectrum of gauss filtered v(x)')
+%%%xlabel('f (Hz)')
+%%%ylabel('|P1(f)|')
 
-figure(4);
+%%figure(4);
 test = ifft((Y));
-plot(test)
+%%plot(test)
 
 % define signal parameters and gaussian pulse in time domain
 Fs = 1000; % Sampling frequency
@@ -95,10 +95,10 @@ t = (-L/2:L/2-1)*T*g_scale;
 % this can be tuned
 sigma = 0.01; 
 X_gausspulse = 1/(4*sqrt(2*pi*sigma))*(exp(-t.^2/(2*sigma)));
-figure(5);
-title('Gaussian Pulse in Time Domain')
-xlabel('Time (t)')
-ylabel('X(t)')
+%%%figure(5);
+%%%title('Gaussian Pulse in Time Domain')
+%%%xlabel('Time (t)')
+%%%ylabel('X(t)')
 
 % convert signal to frequency domain
 n = 2^nextpow2(L);
@@ -109,14 +109,14 @@ Y_gausspulse = fft(X_gausspulse);
 f = Fs*(0:(n/2))/n;
 P = abs(Y_gausspulse/n);
 
-plot(f,P(1:n/2+1))
-title('Gaussian pulse in frequency domain')
-xlabel('Frequency (f)')
-ylabel('|P(f)|')
+%%%plot(f,P(1:n/2+1))
+%%%title('Gaussian pulse in frequency domain')
+%%%xlabel('Frequency (f)')
+%%%ylabel('|P(f)|')
 
-figure(6);
+%%%figure(6);
 X_filtered = fftshift(ifft(Y.*Y_gausspulse));
-plot(X_filtered)
+%%%plot(X_filtered)
 
 %X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
 %[Minima, MinIdx] = findpeaks(X_filtered_inv);
