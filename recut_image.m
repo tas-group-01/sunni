@@ -86,17 +86,31 @@ P = abs(Y_gausspulse/n);
 
 figure(6);
 X_filtered = fftshift(ifft(Y.*Y_gausspulse));
-plot(X_filtered)
+plot(diff(diff(X_filtered)))
 title('Guass filtered signal')
 
 X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
-[Minima, MinIdx] = findpeaks(X_filtered_inv);
+%[Minima, MinIdx] = findpeaks(X_filtered_inv);
+[Maxima, MaxIdx] = findpeaks(diff(diff(X_filtered)));
 
-MinIdx
-Minima
-Minima(1) = 0;
-Minima(end-1:end) = 0;
-idx = find(Minima == max(Minima));
+Maxima
+MaxIdx
+
+%MinIdx
+%Minima
+%Minima(1) = 0;
+%Minima(end) = 0;
+%idx = find(Minima == max(Minima));
+%computing index properly
+diff_value = 0;
+%for i = 2:length(MinIdx)-1
+%	if abs(X_filtered(MinIdx(i) - 8)) > diff_value && abs(X_filtered(MinIdx(i) + 8)) > diff_value
+%		diff_value = abs(X_filtered(MinIdx(i) - 8));
+%		idx = MinIdx(i);
+%	end
+%end
+idx = find(Maxima == max(Maxima));
+idx = MaxIdx(idx); 
 
 col1 = [0;0;0;74;0;0;0;44;255];
 col2 = [0;0;255;0;255;0;0;0;255];
@@ -124,10 +138,15 @@ d_index
 %%%%%% added to process image for 3 and 4
 %[idx] = find(MinIdx > d_index);
 
-end_point = MinIdx(idx)-2;%to be on the safe side
-
-for i = end_point:length(I)
-	I(:,i) =  [255;0;0;0;0;0;0;0;0;0;0;0;0;0;255];
+%end_point = MinIdx(find(MinIdx==idx))-2;%to be on the safe side
+end_point = idx;
+end_point
+for i = end_point-10:length(I) %filter out noise
+	if sum(I(:,i)) < 3*255 % in order to filter out noise before
+		I(:,i) =  [255;0;0;0;0;0;0;0;0;0;0;0;0;0;255];
+	else if i >= end_point 	
+		I(:,i) =  [255;0;0;0;0;0;0;0;0;0;0;0;0;0;255];
+	end
 end
 I(:,end) = [255;255;255;255;255;255;255;255;255;255;255;255;255;255;255];
 
