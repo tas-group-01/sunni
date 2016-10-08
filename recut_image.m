@@ -95,7 +95,7 @@ X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
 MinIdx
 Minima
 Minima(1) = 0;
-Minima(end) = 0;
+Minima(end-1:end) = 0;
 idx = find(Minima == max(Minima));
 
 col1 = [0;0;0;74;0;0;0;44;255];
