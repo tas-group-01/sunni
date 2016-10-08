@@ -163,7 +163,7 @@ for i = d_index:length(X_filtered)-1
 end
 
 
-I_cell = process_numbers(I,index);
+I_cell = process_numbers12(I,index);
 
 % classification and transformation into double
 

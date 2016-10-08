@@ -1,4 +1,4 @@
-function [pot] = pot_player2(g_scale)
+function [pot] = pot_player3(g_scale)
 %% function that classifies the chips committed to the pot by player1
 disp('pot_player3() invoked!')
 
@@ -194,7 +194,7 @@ for i = d_index:length(X_filtered)-1
 end
 
 
-I_cell = process_numbers(I,index);
+I_cell = process_numbers34(I,index);
 
 % classification and transformation into double
 
