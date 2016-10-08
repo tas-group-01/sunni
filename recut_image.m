@@ -1,33 +1,17 @@
-function [pot] = pot_player2(g_scale)
-%% function that classifies the chips committed to the pot by player1
-disp('pot_player2() invoked!')
-
-%global CLASSIFIER_Pot;
-global CLASSIFIER_new_digits;
-
+function [I_ret] = recut_image(I) 
+%% function that recuts image properly
+disp('recut_image() invoked!')
+g_scale = 40;
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 
-I = screencapture(0, [290,528,100,15]);
+I = screencapture(0, [420,528,100,15]);
 I = rgb_to_gray(I);
 I = imfilter(I,filter);
-% von hinten die Zahlen analysieren und durchgehen bis zum $ und Punkt überspringen
 
-imshow(I) 
-
-%v_min = 8000;
-%idx1 = 0;
-%idx2 = 0;
-% iterate over the whole captured image
-% not mandatory to iterate until end
-
-% defining X in order to find local minima of X; 
-% the n - 1 local inimum should be the starting point i.e. idx1
 X = zeros(1,100);
 I_ = zeros(15,99);
 I_(:,:) = I(:,1:99);
 I_ = horzcat(I_,I(:,end-1),I(:,end-1),I(:,end-1));
-%I_(:,1:100) = I(:,1:100);
-%I_(:,101:102) = I(:,end-2:end-1);
 
 for i = 1:length(I)  
 	v1 = sum(I_(:,i));
@@ -36,22 +20,7 @@ for i = 1:length(I)
 	v = [v1 v2 v3];
 	v = sum(v);
 	X(i) = v;
-%	if v < v_min
-%		v_min = v;
-%		idx1 = i+2; % start from there where the numbers start
-%	end
-
-%	Xinv = 1.01*max(X) - X;
-%	[Minima,MinIdx] = findpeaks(Xinv);
 end
-
-%        Xinv = 1.01*max(X) - X;
-%        [Minima,MinIdx] = findpeaks(Xinv);
-
-
-
-%figure(2);
-%plot(X)
 
 Fs = 1000; % Sampling frequency
 T = 1/Fs; % Sampling period
@@ -59,11 +28,11 @@ L = 100;  % Length of the signal
 t = (0:L-1)*T; % Time vector
 
 
-figure(2);
-plot(1000*t(1:90),X(1:90))
-title('Original signal of the captured and filtered image')
-xlabel('samples')
-ylabel('gauss filtered sum of samples')
+%figure(2);
+%plot(1000*t(1:90),X(1:90))
+%title('Original signal of the captured and filtered image')
+%xlabel('samples')
+%ylabel('gauss filtered sum of samples')
 
 % compute Fourier transform of the signal
 Y = fft(X);
@@ -120,8 +89,14 @@ X_filtered = fftshift(ifft(Y.*Y_gausspulse));
 plot(X_filtered)
 title('Guass filtered signal')
 
-%X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
-%[Minima, MinIdx] = findpeaks(X_filtered_inv);
+X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
+[Minima, MinIdx] = findpeaks(X_filtered_inv);
+
+MinIdx
+Minima
+Minima(1) = 0;
+Minima(end) = 0;
+idx = find(Minima == max(Minima));
 
 col1 = [0;0;0;74;0;0;0;44;255];
 col2 = [0;0;255;0;255;0;0;0;255];
@@ -145,60 +120,18 @@ for i = 5:length(I)-5
         	end
 	end
 end
+d_index
+%%%%%% added to process image for 3 and 4
+%[idx] = find(MinIdx > d_index);
 
+end_point = MinIdx(idx)-2;%to be on the safe side
 
-
-
-
-% find deepest descend
-desc = 0;
-descent = diff(X_filtered);
-for i = d_index:length(X_filtered)-1
-%	descent = X_filtered(i-10) - X_filtered(i + 10);
-%	if descent > desc
-	if descent(i) < desc
-		desc = descent(i);
-		% to be on the safe side add 1
-		index = i+1;
-	end
+for i = end_point:length(I)
+	I(:,i) =  [255;0;0;0;0;0;0;0;0;0;0;0;0;0;255];
 end
+I(:,end) = [255;255;255;255;255;255;255;255;255;255;255;255;255;255;255];
 
+%%%%%% added to process image for 3 and 4
 
-I_cell = process_numbers(I,index);
-
-% classification and transformation into double
-
-% preprocessing
-%for i = 1:length(I_cell)
-%	im = I_cell{i};
-%	% cut rows from 13 to 10
-%	for j = 1:3
-%		if sum(im(1,:)) < sum(im(end,:))
-%			im = im(2:end,:);
-%		else
-%			im = im(1:end-1,:);
-%		end
-%	end
-%	% cut cols from 7 to 6
-%	if sum(im(:,1)) < sum(im(end,:))
-%		im = im(:,2:end);
-%	else
-%		im = im(:,1:end-1);
-%	end
-%	
-%	I_cell{i} = im;
-%end
-
-
-n = zeros(1,length(I_cell));
-
-for i = 1:length(I_cell)
-	%n(i) = predict(CLASSIFIER_Pot, extractHOGFeatures(imresize(I_cell{i},[10 7]),'CellSize',[2 2])); 
-	n(i) = predict(CLASSIFIER_new_digits, extractHOGFeatures(cutting_off(I_cell{i}),'CellSize',[1 1]));
-end
-%n 
-pot = n*10.^(numel(n)-1:-1:0).';
-
-%pot = I_cell;
-
+I_ret = I;
 end

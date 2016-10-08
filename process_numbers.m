@@ -63,14 +63,16 @@ end
 
 
 
-
+peak
+d_index
 
 % find the relevant peaks
 index = find(peak > d_index);
 peak = peak(index);
 
-peak = peak(2:end);
+%peak = peak(2:end);  %here might be a problem when we have nothing in front this is uncommented -> two functions need to be implemented
 peak(1:end) = peak(end:-1:1);
+peak
 
 %if ~four_digits
 %	peak = peak(1:4);

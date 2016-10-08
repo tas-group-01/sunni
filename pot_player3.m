@@ -1,18 +1,48 @@
 function [pot] = pot_player2(g_scale)
 %% function that classifies the chips committed to the pot by player1
-disp('pot_player2() invoked!')
+disp('pot_player3() invoked!')
 
 %global CLASSIFIER_Pot;
 global CLASSIFIER_new_digits;
 
 filter = [-2 -2 -2;-2 14 -2;-2 -2 -2];
 
-I = screencapture(0, [290,528,100,15]);
+I = screencapture(0, [420,528,100,15]);
 I = rgb_to_gray(I);
 I = imfilter(I,filter);
 % von hinten die Zahlen analysieren und durchgehen bis zum $ und Punkt überspringen
 
 imshow(I) 
+
+
+
+
+% added 08.10.16
+I = recut_image(I);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %v_min = 8000;
 %idx1 = 0;
@@ -120,8 +150,10 @@ X_filtered = fftshift(ifft(Y.*Y_gausspulse));
 plot(X_filtered)
 title('Guass filtered signal')
 
-%X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
-%[Minima, MinIdx] = findpeaks(X_filtered_inv);
+X_filtered_inv = 1.01*max(X_filtered) - X_filtered;
+[Minima, MinIdx] = findpeaks(X_filtered_inv);
+
+MinIdx
 
 col1 = [0;0;0;74;0;0;0;44;255];
 col2 = [0;0;255;0;255;0;0;0;255];
@@ -145,9 +177,7 @@ for i = 5:length(I)-5
         	end
 	end
 end
-
-
-
+d_index
 
 
 % find deepest descend
